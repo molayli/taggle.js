@@ -921,6 +921,7 @@
     Taggle.prototype.disable = function(options) {
         if(!this._disabled){
             this.getContainer().classList.add(this.settings.disabledClassName);
+            this.getInput().value = '';
             this.getInput().setAttribute('disabled','');
             this._disabled = true;
         }
