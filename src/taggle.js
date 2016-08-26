@@ -197,7 +197,12 @@
          * @param  {Event} event Event triggered when tag was removed
          * @param  {String} tag The tag removed
          */
-        onTagRemove: noop
+        onTagRemove: noop , 
+
+        /**
+         * disabled class name duh !
+         */
+        disabledClassName : 'disabled'
     };
 
     //////////////////////
@@ -264,6 +269,7 @@
                 padding: null
             }
         };
+        this._disabled = false;
         this.container = el;
         this.tag = {
             values: [],
@@ -760,6 +766,10 @@
         var elem;
         var index;
 
+        if(this._disabled){
+            return;
+        }
+
         if (li.tagName.toLowerCase() !== 'li') {
             li = li.parentNode;
         }
@@ -884,6 +894,39 @@
         this.settings = _extend({}, this.settings, options || {});
 
         return this;
+    };
+
+
+    // is disabled 
+
+    Taggle.prototype.isDisabled = function(options) {
+        return this._disabled;
+    };
+
+    
+
+    // enable !
+
+    Taggle.prototype.enable = function(options) {
+        if(this._disabled){
+            this.getContainer().classList.remove(this.settings.disabledClassName);
+            this.getInput().removeAttribute('disabled');
+            this._disabled = false;
+        }
+
+        return this;
+    };
+
+    // disable !
+    Taggle.prototype.disable = function(options) {
+        if(!this._disabled){
+            this.getContainer().classList.add(this.settings.disabledClassName);
+            this.getInput().setAttribute('disabled','');
+            this._disabled = true;
+        }
+
+        return this;
+
     };
 
     return Taggle;
